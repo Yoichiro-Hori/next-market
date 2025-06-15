@@ -3,6 +3,8 @@ import { NextResponse } from "next/server"
 
 export async function middleware(request) {
   //tokenの取得
+  //const token =
+  //"eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImR1bW15QGdtYWlsLmNvbSIsImV4cCI6MTc1MDA2NDYyM30.7foyuk1bbg4AgtP1em7S1joi0MZvHmgGC8oQcT4v870"
   const token = await request.headers.get("Authorization")?.split(" ")[1]
 
   if (!token) {
