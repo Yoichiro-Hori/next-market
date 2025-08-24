@@ -1,37 +1,40 @@
-"use client"
-import { useState } from "react"
+"use client";
+import { useState } from "react";
 
 const Login = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/api/user/login", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      })
-      const jsonData = await response.json()
-      localStorage.setItem("token", jsonData.token)
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/api/user/login`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }
+      );
+      const jsonData = await response.json();
+      localStorage.setItem("token", jsonData.token);
 
-      alert(jsonData.message)
+      alert(jsonData.message);
     } catch {
-      alert("login error")
+      alert("login error");
     }
-  }
+  };
 
   return (
     <div>
-      <h1>ログイン</h1>
+      <h1 className="page-title">ログイン</h1>
       <form onSubmit={handleSubmit}>
         <input
           value={email}
@@ -52,7 +55,7 @@ const Login = () => {
         <button>ログイン</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

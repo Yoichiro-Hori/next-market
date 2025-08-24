@@ -1,28 +1,51 @@
 "use client";
-import { useState } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useAuth from "@/app/utils/useAuth";
 
-const CreateItem = () => {
+const DeleteItem = (context) => {
   //usestateの設定
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
+  const [email, setEmail] = useState("");
 
-  //routerの設定
+  //router設定
   const router = useRouter();
 
   //useAuthの取得
   const loginUserEmail = useAuth();
 
+  //URLから[id]のパラメータを取得
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getSingleItem = async (id) => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/api/item/readsingle/${id}`,
+        { cache: "no-cache" }
+      );
+      const jsonData = await response.json();
+      const singleItem = jsonData.singleItem;
+      setTitle(singleItem.title);
+      setPrice(singleItem.price);
+      setImage(singleItem.image);
+      setDescription(singleItem.description);
+      setEmail(singleItem.email);
+    };
+
+    getSingleItem(id);
+  }, [context]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/item/create`,
+        `http://localhost:3000/api/item/delete/${id}`,
         {
-          method: "POST",
+          method: "DELETE",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -42,14 +65,14 @@ const CreateItem = () => {
       router.push("/");
       router.refresh;
     } catch {
-      alert("アイテム作成失敗");
+      alert("アイテム削除失敗");
     }
   };
 
-  if (loginUserEmail) {
+  if (loginUserEmail === email) {
     return (
       <div>
-        <h1 className="page-title">アイテム作成</h1>
+        <h1 className="page-title">アイテム削除</h1>
         <form onSubmit={handleSubmit}>
           <input
             value={title}
@@ -83,10 +106,14 @@ const CreateItem = () => {
             placeholder="商品説明"
             required
           ></textarea>
-          <button>作成</button>
+          <hr />
+          <button>削除</button>
         </form>
       </div>
     );
+  } else {
+    return <h1>権限がありません</h1>;
   }
 };
-export default CreateItem;
+
+export default DeleteItem;

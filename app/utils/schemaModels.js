@@ -1,20 +1,20 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
-//アイテムスキーマ
+//アイテムスキーマ ------------------------------------------------------//
 const ItemSchema = new Schema({
   title: String,
   image: String,
   price: String,
   description: String,
   email: String,
-})
+});
 
 export const ItemModel =
-  mongoose.models.Item || mongoose.model("Item", ItemSchema)
+  mongoose.models.Item || mongoose.model("Item", ItemSchema);
 
-//ユーザスキーマ
+//ユーザスキーマ ------------------------------------------------------//
 const UserSchema = new Schema({
   name: {
     type: String,
@@ -29,7 +29,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-})
+});
 
 export const UserModel =
-  mongoose.models.User || mongoose.model("User", UserSchema)
+  mongoose.models.User || mongoose.model("User", UserSchema);

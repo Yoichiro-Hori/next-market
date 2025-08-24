@@ -11,14 +11,14 @@ export async function PUT(request, context) {
     const resolvedParams = await context.params
     const singleItem = await ItemModel.findById(resolvedParams.id)
 
-    //DBにアイテムが存在するかのチェック
+    //アイテムのメールアドレスとリクエストユーザのメールアドレスが一致するかチェック
     if (singleItem.email === reqBody.email) {
-      //DBにアイテムが存在する場合
+      //一致する場合
       //アイテムを更新
       await ItemModel.updateOne({ _id: resolvedParams.id }, reqBody)
       return NextResponse.json({ message: "Item update success" })
     } else {
-      //DBにアイテムが存在しない場合
+      //一致しない場合
       return NextResponse.json({ message: "No permissions to edit" })
     }
   } catch {

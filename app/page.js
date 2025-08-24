@@ -1,9 +1,29 @@
-const ReadAllItems = () => {
-  return (
-    <div>
-      <h1>こんちはー</h1>
-    </div>
-  )
-}
+import Link from "next/link";
 
-export default ReadAllItems
+const getAllItems = async () => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/item/readall`, {
+    cache: "no-store",
+  });
+  const jsonData = await response.json();
+  return jsonData.allItems;
+};
+
+const ReadAllItems = async () => {
+  const alllItems = await getAllItems();
+  return (
+    <div className="grid-container-in">
+      {alllItems.map((item) => (
+        <Link href={`/item/readsingle/${item._id}`} key={item._id}>
+          <img src={item.image} />
+          <div>
+            <h2>¥{item.price}</h2>
+            <h3>{item.title}</h3>
+            <p>{item.description.substring(0, 80)}</p>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+};
+
+export default ReadAllItems;
