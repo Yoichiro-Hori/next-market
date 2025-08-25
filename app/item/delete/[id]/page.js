@@ -11,6 +11,7 @@ const DeleteItem = (context) => {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState("");
 
   //router設定
   const router = useRouter();
@@ -34,6 +35,7 @@ const DeleteItem = (context) => {
       setImage(singleItem.image);
       setDescription(singleItem.description);
       setEmail(singleItem.email);
+      setLoading(true);
     };
 
     getSingleItem(id);
@@ -69,50 +71,54 @@ const DeleteItem = (context) => {
     }
   };
 
-  if (loginUserEmail === email) {
-    return (
-      <div>
-        <h1 className="page-title">アイテム削除</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            type="text"
-            name="title"
-            placeholder="アイテム名"
-            required
-          />
-          <input
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            type="text"
-            name="price"
-            placeholder="価格"
-            required
-          />
-          <input
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            type="text"
-            name="image"
-            placeholder="画像"
-            required
-          />
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            name="description"
-            rows={15}
-            placeholder="商品説明"
-            required
-          ></textarea>
-          <hr />
-          <button>削除</button>
-        </form>
-      </div>
-    );
+  if (loading) {
+    if (loginUserEmail === email) {
+      return (
+        <div>
+          <h1 className="page-title">アイテム削除</h1>
+          <form onSubmit={handleSubmit}>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              type="text"
+              name="title"
+              placeholder="アイテム名"
+              required
+            />
+            <input
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              type="text"
+              name="price"
+              placeholder="価格"
+              required
+            />
+            <input
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              type="text"
+              name="image"
+              placeholder="画像"
+              required
+            />
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              name="description"
+              rows={15}
+              placeholder="商品説明"
+              required
+            ></textarea>
+            <hr />
+            <button>削除</button>
+          </form>
+        </div>
+      );
+    } else {
+      return <h1>権限がありません</h1>;
+    }
   } else {
-    return <h1>権限がありません</h1>;
+    return <h1>ローディング中...</h1>;
   }
 };
 

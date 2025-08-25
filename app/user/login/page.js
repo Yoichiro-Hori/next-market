@@ -34,6 +34,8 @@ const Login = () => {
 
   return (
     <div>
+      <title>ログインページ</title>
+      <meta name="description" content="ログインページです"></meta>
       <h1 className="page-title">ログイン</h1>
       <form onSubmit={handleSubmit}>
         <input
