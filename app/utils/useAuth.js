@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import { jwtVerify } from "jose";
 import { useEffect, useState } from "react";
 
-const useAuth = async () => {
+const useAuth = () => {
   //useStateの設定
   const [loginUserEmail, setLoginUserEmail] = useState("");
 
